@@ -30,8 +30,7 @@ def merge(arr, l, m, r):
         arr[k] = R[j]
         j += 1
         k += 1
- 
- 
+
 def mergeSort(arr, l, r):
     if l < r:
         m = l+(r-l)//2
@@ -51,7 +50,6 @@ def b_search_find(T, x):
         else:
             return mid  # Element is found
     return -1 
-
 
 def b_search_find_greater(T, x):
     low = 0
@@ -76,7 +74,7 @@ def ksum(T, k, p):
         # print(f"{p_list},",end=" | ")
         p_list.insert(indx_insert,T[i+p]) 
         indx_delete = b_search_find(p_list,T[i])
-        p_list.__delitem__(indx_delete)
+        del p_list[indx_delete]
         # print(p_list[p-k], end = " ")
         ans += p_list[p-k]
     # tu prosze wpisac wlasna implementacje
