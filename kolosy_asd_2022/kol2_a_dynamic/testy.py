@@ -3,8 +3,10 @@
 
 import sys
 
-TIMER = True
-RERAISE = False
+sys.setrecursionlimit(10000)
+
+TIMER = False
+RERAISE = True
 PRINT_STATUS = False
 USE_STORED_TESTS = False
 SAVE_TESTS = False
@@ -12,7 +14,7 @@ FORCE_ALL_TESTS = False
 
 
 if TIMER:
-  from signal import signal
+  from signal import signal, alarm, SIGALRM
 
 from copy import deepcopy
 import time
@@ -107,10 +109,16 @@ def internal_runtests( copyarg, printarg, printhint, printsol, check, generate_t
     printarg( *arg )
     printhint( hint )
     try:
+      if TIMER:
+        signal( SIGALRM, timeout_handler )
+        alarm( ACC_TIME + 1)
       time_s = time.time()
       end    = time.time() 
       sol    = f( *arg )
       time_e = time.time()
+      
+      if TIMER:
+        alarm(0)
       printsol( sol )
       res = check( *arg2, hint, sol )
       if ACC_TIME > 0 and float(time_e-time_s) > ACC_TIME:

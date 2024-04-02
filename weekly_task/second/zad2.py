@@ -1,3 +1,16 @@
+'''
+======================================================================================================================================================================================================================|
+|                                                                                                                                                                                                                     |
+|   Autor zadania: Hubert Miklas                                                                                                                                                                                      |
+|   Złożoność czasowa algorytmu: O(n log p)                                                                                                                                                                           |
+|   Złożoność pamięciowa algorytmu: O(p)                                                                                                                                                                              |
+|                                                                                                                                                                                                                     |
+|   Opis algorytmu:                                                                                                                                                                                                   |
+|   Po pierwsze wybieram p pierwszych elementów, sortuje je, dodaję w czasie stałym k-ty największy element do sumy, następnie usuwam z pomocniczej listy pierwszy element występujący w T, i dodaję następny z T.    |
+|   obie procedury wykonuje w czasie O(log p), ponieważ wyszukuję binarnie element do usunięcia i miejsce elementu do wstawienia.                                                                                     |
+|                                                                                                                                                                                                                     |
+======================================================================================================================================================================================================================|
+'''
 from zad2testy import runtests
 
 def merge(arr, l, m, r):
