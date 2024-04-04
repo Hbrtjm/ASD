@@ -1,0 +1,2 @@
+def lead(A):
+    pass

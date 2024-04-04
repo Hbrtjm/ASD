@@ -1,0 +1,10 @@
+"""Możemy przyjąć, że dla liczb z zakresu n^2-1 jest każda jest na przedziale 1..n w """
+
+def modified_bucket(T):
+    n = len(T) 
+    answer = []
+    places = [] * n
+    for elem in T:
+        places[elem//n].append(elem)
+    for place in range(n):
+        answer.append(places[place])
