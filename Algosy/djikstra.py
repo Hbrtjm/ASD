@@ -1,14 +1,23 @@
 import heapq
 
-
-def djikstra(G, s):
-    distances = [float("inf") for _ in range(len(G))]
+def dijkstra(G, s):
+    distances = [float("inf")] * len(G)
     distances[s] = 0
-    queue = [s]
-    while len(queue) != 0:
-        current = heapq.heappop(queue)
-        for u, w in G[current]:
-            if distances[u] > distances[current] + w:
-                distances[u] = distances[current] + w
-                heapq.heappush(queue, (distances[u], u))
+    priority_queue = [(0, s)]  # (distance, node)
+
+    while priority_queue:
+        current_distance, current_node = heapq.heappop(priority_queue)
+
+        # If the popped node has a distance greater than the known shortest distance, skip it.
+        if current_distance > distances[current_node]:
+            continue
+
+        for neighbor, weight in G[current_node]:
+            distance = current_distance + weight
+
+            # Only consider this new path if it's better
+            if distance < distances[neighbor]:
+                distances[neighbor] = distance
+                heapq.heappush(priority_queue, (distance, neighbor))
+
     return distances
