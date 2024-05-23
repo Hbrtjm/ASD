@@ -1,38 +1,42 @@
 def scc(G):
-    reversed = [[] for _ in range(len(G))]
-    time = 0
-    processed_time = [None for _ in range(len(G))]
-    for v in range(len(G)):
+    def dfs1(G, v, visited, stack):
+        visited[v] = True
         for u in G[v]:
-            reversed[u].append(v)
-
-    def dfs(G, current):
-        nonlocal time, visited
-        time += 1
-        for u in G[current]:
             if not visited[u]:
-                dfs(G, u)
-        processed_time[current] = time
+                dfs1(G, u, visited, stack)
+        stack.append(v)
 
-    visited = [False for _ in range(len(G))]
+    def dfs2(G, v, visited, component):
+        visited[v] = True
+        component.append(v)
+        for u in G[v]:
+            if not visited[u]:
+                dfs2(G, u, visited, component)
 
-    for i in range(len(G)):
+    # Step 1: Perform a DFS to compute finishing times
+    n = len(G)
+    visited = [False] * n
+    stack = []
+
+    for i in range(n):
         if not visited[i]:
-            dfs(G, i)
+            dfs1(G, i, visited, stack)
 
-    def dfs2(reversed, current, component):
-        nonlocal visited
-        for u in G[current]:
-            if not visited:
-                component.append(u)
+    # Step 2: Reverse the graph
+    reversed_graph = [[] for _ in range(n)]
+    for v in range(n):
+        for u in G[v]:
+            reversed_graph[u].append(v)
 
+    # Step 3: Perform DFS on the reversed graph in the order of decreasing finishing times
+    visited = [False] * n
     answer = []
-    anstable = [(processed_time[i], i) for i in range(len(G))]
-    anstable = sorted(anstable, key=lambda x: x[0])
-    visited = [False for _ in range(len(G))]
-    for i in range(len(G)):
-        if not visited[i]:
+
+    while stack:
+        v = stack.pop()
+        if not visited[v]:
             component = []
-            dfs2(reversed, i, component)
+            dfs2(reversed_graph, v, visited, component)
             answer.append(component)
+
     return answer

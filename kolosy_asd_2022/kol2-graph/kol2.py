@@ -12,8 +12,31 @@ def beautree(G):
     tree = []
     for i in range(n-1):
         tree.append(E[i])
-    
+    def one_piece(G,s):
+        queue = [s]
+        visited = [ False for _ in range(len(G)) ]
+        while len(queue) != 0:
+            v = queue.pop(0)
+            for u in G[v]:
+                if not visited[u]:
+                    queue.append(u)
+        for i in len(G):
+            if not visited[u]:
+                return False
+        return True
+    def no_cycle(V,visited,s):
+        answer = True
+        for u in V[s]:
+            if not visited[u]:
+                visited[u] = True
+                answer = answer and no_cycle(V,visited,u)
+            else:
+                answer = False
+        return answer
+    i = 0
     while i < len(E):
+        if one_piece(V,E[i-1][0]) and no_cycle(V,visited,s):
+            return 
     return None
 
 
